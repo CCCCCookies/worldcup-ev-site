@@ -21,9 +21,40 @@ def build_static_dashboard(output_path: Path = DEFAULT_OUTPUT) -> dict:
     snapshot = service.refresh()
     history = load_odds_history()
     payload = dashboard_data_from_snapshot(snapshot, history=history, static_mode=True)
+    payload = keep_previous_dashboard_if_refresh_failed(payload, output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     return payload
+
+
+def keep_previous_dashboard_if_refresh_failed(payload: dict, output_path: Path) -> dict:
+    if dashboard_has_live_sources(payload):
+        return payload
+    if not output_path.exists():
+        raise RuntimeError("Live refresh failed and no previous dashboard.json is available.")
+
+    previous = json.loads(output_path.read_text(encoding="utf-8"))
+    if not dashboard_has_live_sources(previous):
+        raise RuntimeError("Live refresh failed and the previous dashboard.json is not usable.")
+
+    previous_status = previous.setdefault("status", {})
+    failed_status = payload.get("status", {})
+    previous_status["stale"] = True
+    previous_status["errors"] = [
+        *previous_status.get("errors", []),
+        *failed_status.get("errors", []),
+    ][-5:]
+    previous["staticMode"] = True
+    return previous
+
+
+def dashboard_has_live_sources(payload: dict) -> bool:
+    status = payload.get("status", {})
+    return bool(
+        status.get("polyalpha_generated_at")
+        and status.get("sporttery_last_update")
+        and not status.get("stale")
+    )
 
 
 def main() -> None:

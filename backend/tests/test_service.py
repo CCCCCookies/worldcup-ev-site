@@ -9,6 +9,7 @@ from app.service import (
     build_backtest_report,
     build_snapshot_from_payloads,
     dashboard_data_from_snapshot,
+    fetch_sporttery_json,
     odds_history_records_from_snapshot,
     snapshot_from_dict,
     snapshot_to_dict,
@@ -133,6 +134,15 @@ class SnapshotServiceTests(unittest.TestCase):
         self.assertTrue(snapshot.status.stale)
         self.assertEqual(snapshot.status.valid_had_matches, 1)
         self.assertIn("network down", snapshot.status.errors[-1])
+
+    def test_sporttery_fetch_tries_both_official_gateway_paths(self):
+        with patch("app.service.fetch_json", side_effect=[RuntimeError("blocked"), SPORTTERY]) as fetch:
+            payload = fetch_sporttery_json()
+
+        self.assertIs(payload, SPORTTERY)
+        self.assertEqual(fetch.call_count, 2)
+        self.assertIn("/gateway/jc/football/", fetch.call_args_list[0].args[0])
+        self.assertIn("/gateway/uniform/football/", fetch.call_args_list[1].args[0])
 
     def test_old_cache_without_nearest_sale_rebuilds_nearest_sale_from_odds_rows(self):
         snapshot = build_snapshot_from_payloads(POLYALPHA, POLYALPHA_INDEX, SPORTTERY, now=TEST_NOW)

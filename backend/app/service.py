@@ -20,9 +20,15 @@ from .models import AccuracyStrategy, BestBet, NearestSale, OddsRow, OddsSummary
 
 POLYALPHA_INDEX_URL = "https://worldcup.polyalpha.cn/"
 POLYALPHA_DATA_URL = "https://worldcup.polyalpha.cn/data.json"
-SPORTTERY_URL = (
-    "https://webapi.sporttery.cn/gateway/uniform/football/"
-    "getMatchCalculatorV1.qry?channel=c&poolCode=hhad,had"
+SPORTTERY_URLS = (
+    (
+        "https://webapi.sporttery.cn/gateway/jc/football/"
+        "getMatchCalculatorV1.qry?poolCode=hhad,had&channel=c"
+    ),
+    (
+        "https://webapi.sporttery.cn/gateway/uniform/football/"
+        "getMatchCalculatorV1.qry?channel=c&poolCode=hhad,had"
+    ),
 )
 CACHE_DIR = Path(__file__).resolve().parents[1] / "data"
 CACHE_FILE = CACHE_DIR / "latest_snapshot.json"
@@ -55,7 +61,7 @@ class DataService:
         try:
             polyalpha_data = fetch_json(POLYALPHA_DATA_URL)
             polyalpha_index = fetch_text(POLYALPHA_INDEX_URL)
-            sporttery_data = fetch_json(SPORTTERY_URL, referer="https://www.sporttery.cn/jc/jsq/zqspf/")
+            sporttery_data = fetch_sporttery_json()
             snapshot = build_snapshot_from_payloads(polyalpha_data, polyalpha_index, sporttery_data)
             with self._lock:
                 self._snapshot = snapshot
@@ -127,6 +133,16 @@ fetch(url, { headers }).then(async (response) => {
 
 def fetch_json(url: str, referer: str | None = None) -> dict[str, Any]:
     return json.loads(fetch_text(url, referer=referer))
+
+
+def fetch_sporttery_json() -> dict[str, Any]:
+    errors: list[str] = []
+    for url in SPORTTERY_URLS:
+        try:
+            return fetch_json(url, referer="https://www.sporttery.cn/jc/jsq/zqspf/")
+        except Exception as exc:  # noqa: BLE001 - try the second official gateway
+            errors.append(f"{url}: {type(exc).__name__}: {exc}")
+    raise RuntimeError("All official Sporttery gateways failed: " + " | ".join(errors))
 
 
 def build_snapshot_from_payloads(

@@ -1,0 +1,13 @@
+backend/app/__pycache__/
+backend/tests/__pycache__/
+backend/.pytest_cache/
+backend/data/latest_snapshot.json
+cloudflared.*.log
+frontend/dist/
+frontend/node_modules/
+frontend/src/*.tsbuildinfo
+frontend/tsconfig.tsbuildinfo
+nearest_sale_report.html
+server.pid
+tmp/
+tools/

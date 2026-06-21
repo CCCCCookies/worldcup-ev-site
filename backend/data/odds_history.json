@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-21T17:56:48",
+  "updated_at": "2026-06-21T18:35:25",
   "records": {
     "2026-06-14|Netherlands|Japan": {
       "result_date": "2026-06-14",
@@ -641,12 +641,12 @@
         "away": 0.1243
       },
       "had_odds": {
-        "home": 1.28,
-        "draw": 4.61,
-        "away": 7.6
+        "home": 1.26,
+        "draw": 4.76,
+        "away": 7.95
       },
-      "had_update": "2026-06-21 11:18:13",
-      "captured_at": "2026-06-21T17:56:48",
+      "had_update": "2026-06-21 18:04:41",
+      "captured_at": "2026-06-21T18:35:25",
       "source": "site_snapshot"
     },
     "2026-06-21|Uruguay|Cape Verde": {
@@ -670,7 +670,7 @@
         "away": 8.8
       },
       "had_update": "2026-06-21 10:28:20",
-      "captured_at": "2026-06-21T17:56:48",
+      "captured_at": "2026-06-21T18:35:25",
       "source": "site_snapshot"
     },
     "2026-06-21|New Zealand|Egypt": {
@@ -694,7 +694,7 @@
         "away": 1.42
       },
       "had_update": "2026-06-21 17:31:19",
-      "captured_at": "2026-06-21T17:56:48",
+      "captured_at": "2026-06-21T18:35:25",
       "source": "site_snapshot"
     },
     "2026-06-22|Argentina|Austria": {
@@ -718,7 +718,7 @@
         "away": 6.1
       },
       "had_update": "2026-06-21 15:58:43",
-      "captured_at": "2026-06-21T17:56:48",
+      "captured_at": "2026-06-21T18:35:25",
       "source": "site_snapshot"
     },
     "2026-06-22|Norway|Senegal": {
@@ -742,7 +742,7 @@
         "away": 3.2
       },
       "had_update": "2026-06-21 15:35:20",
-      "captured_at": "2026-06-21T17:56:48",
+      "captured_at": "2026-06-21T18:35:25",
       "source": "site_snapshot"
     },
     "2026-06-22|Jordan|Algeria": {
@@ -766,7 +766,7 @@
         "away": 1.44
       },
       "had_update": "2026-06-21 11:47:10",
-      "captured_at": "2026-06-21T17:56:48",
+      "captured_at": "2026-06-21T18:35:25",
       "source": "site_snapshot"
     },
     "2026-06-23|Panama|Croatia": {
@@ -790,7 +790,7 @@
         "away": 1.41
       },
       "had_update": "2026-06-21 09:15:03",
-      "captured_at": "2026-06-21T17:56:48",
+      "captured_at": "2026-06-21T18:35:25",
       "source": "site_snapshot"
     },
     "2026-06-23|Colombia|DR Congo": {
@@ -814,7 +814,7 @@
         "away": 7.5
       },
       "had_update": "2026-06-21 09:15:03",
-      "captured_at": "2026-06-21T17:56:48",
+      "captured_at": "2026-06-21T18:35:25",
       "source": "site_snapshot"
     }
   }

@@ -1,4 +1,5 @@
 backend/app/__pycache__/
+backend/scripts/__pycache__/
 backend/tests/__pycache__/
 backend/.pytest_cache/
 backend/data/latest_snapshot.json

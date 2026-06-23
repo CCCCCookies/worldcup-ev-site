@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -36,6 +37,10 @@ def keep_previous_dashboard_if_refresh_failed(payload: dict, output_path: Path) 
     previous = json.loads(output_path.read_text(encoding="utf-8"))
     if not dashboard_has_live_sources(previous):
         raise RuntimeError("Live refresh failed and the previous dashboard.json is not usable.")
+
+    if os.getenv("KEEP_EXISTING_DASHBOARD_ON_REFRESH_FAILURE") == "1":
+        previous["staticMode"] = True
+        return previous
 
     previous_status = previous.setdefault("status", {})
     failed_status = payload.get("status", {})
